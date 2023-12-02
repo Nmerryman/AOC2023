@@ -14,4 +14,37 @@ proc part1 =
     echo sum(nums)
 
 
-part1()
+proc getNumber(s: string): int =
+    let numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+    var first: int 
+    var last: int
+    var first_found = false
+    for i, v in s:
+        if v.isDigit:
+            if not first_found:
+                first_found = true
+                first = parseInt($v)
+            last = parseInt($v)
+
+        for n in numbers:
+            if i + n.high <= s.high and s[i .. i + n.high] == n:
+                if not first_found:
+                    first_found = true
+                    first = numbers.find(n)
+
+                last = numbers.find(n)
+    
+    return first * 10 + last
+
+
+
+proc part2 =
+    var nums: seq[int]
+    for line in lines("input.txt"):
+        nums.add(getNumber(line))
+    echo sum(nums)
+
+
+
+# part1()
+part2()
